@@ -1,3 +1,5 @@
+# JV Bot 2025
+
 ## NOTICE
 
 This repository contains the public FTC SDK for the DECODE (2025-2026) competition season.
@@ -92,6 +94,7 @@ The readme.md file located in the [/TeamCode/src/main/java/org/firstinspires/ftc
   * Requires firmware v3.x. For instructions on updating firmware, see
     https://github.com/DigitalChickenLabs/OctoQuad/blob/master/documentation/OctoQuadDatasheet_Rev_3.0C.pdf
 
+## Pedro Pathing
 
 ## Version 10.3 (20250625-090416)
 
