@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
@@ -9,17 +8,17 @@ import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 import com.seattlesolvers.solverslib.gamepad.ToggleButtonReader;
 
 import org.firstinspires.ftc.teamcode.Robot;
+import org.firstinspires.ftc.teamcode.subsystems.NewRobot;
 
 /**
  * Basic TeleOp for the JV Bot.
  */
-@Disabled
-@TeleOp(name = "Basic Tele")
-public class BasicTeleOp extends LinearOpMode {
+@TeleOp(name = "New Basic Tele")
+public class NewTeleOp extends LinearOpMode {
 
     /* Robot encapsulates the hardware for the bot
        whereas the opmode encapsulates the behavior and controls */
-    private Robot robot;
+    private org.firstinspires.ftc.teamcode.subsystems.NewRobot robot;
 
     // Controls //
     // Gamepad controllers and settings //
@@ -65,7 +64,7 @@ public class BasicTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         // Initialize the robot
-        robot = new Robot(hardwareMap);
+        robot = new NewRobot(hardwareMap, "frontLeft", "frontRight", "backLeft", "backRight");
         robot.setDriveMaxSpeed(maxDriveSpeed);
 
         // Gamepads
@@ -116,7 +115,7 @@ public class BasicTeleOp extends LinearOpMode {
     }
 
     private void drive() {
-        robot.arcadeDrive(-driver.getLeftY(), -driver.getRightX(), squareInputs);
+        robot.driveRobotCentric(driver, 1);
     }
 
     private void sendTelemetry() {
