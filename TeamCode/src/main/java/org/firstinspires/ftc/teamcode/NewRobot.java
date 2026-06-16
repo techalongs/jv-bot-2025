@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode;
 
 import static com.seattlesolvers.solverslib.hardware.motors.CRServoEx.RunMode.RawPower;
 
@@ -11,6 +11,7 @@ import com.seattlesolvers.solverslib.hardware.motors.Motor;
 import com.seattlesolvers.solverslib.hardware.motors.MotorEx;
 
 public class NewRobot extends SubsystemBase {
+
     private final MecanumDrive drivetrain;
     private MotorEx launchMotor;
     private CRServoEx leftFeeder;
@@ -44,24 +45,23 @@ public class NewRobot extends SubsystemBase {
 
         drivetrain = new MecanumDrive(false, frontLeft, frontRight, backLeft, backRight);
 
-        launchMotor = new MotorEx(hardwareMap, "launchMotor", Motor.GoBILDA.RPM_312);
+        launchMotor = new MotorEx(hardwareMap, "launchMotor", Motor.GoBILDA.BARE);
+        launchMotor.setInverted(true);
         launchMotor.setRunMode(Motor.RunMode.RawPower);
-        launchMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        launchMotor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
         launchMotor.stopAndResetEncoder();
 
         leftFeeder = new CRServoEx(hardwareMap, "leftFeeder");
         leftFeeder.setRunMode(RawPower);
         rightFeeder = new CRServoEx(hardwareMap, "rightFeeder");
-        rightFeeder.setInverted(true);
         rightFeeder.setRunMode(RawPower);
     }
 
     public void driveRobotCentric(GamepadEx gamepad, double limiter) {
         double strafeSpeed = gamepad.getLeftX() * limiter;
-        double forwardSpeed = gamepad.getLeftY() * limiter;
-        double turnSpeed = gamepad.getRightX() * limiter;
-
-        drivetrain.driveRobotCentric(strafeSpeed, forwardSpeed, turnSpeed, false);
+        double forwardSpeed = -gamepad.getLeftY() * limiter;
+        double turnSpeed = -gamepad.getRightX() * limiter;
+        drivetrain.driveRobotCentric(strafeSpeed, forwardSpeed, turnSpeed, true);
     }
 
     public void setDriveMaxSpeed(double maxSpeed) {
@@ -73,7 +73,7 @@ public class NewRobot extends SubsystemBase {
     }
 
     public double getLauncherSpeed() {
-        return launchMotor.getVelocity();
+        return Math.abs(launchMotor.getVelocity());
     }
 
     public double getLaunchMotorMaxSpeed() {
@@ -88,4 +88,5 @@ public class NewRobot extends SubsystemBase {
     public double getFeederSpeed() {
         return leftFeeder.get();
     }
+
 }
