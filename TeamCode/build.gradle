@@ -1,3 +1,7 @@
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+
 //
 // build.gradle in TeamCode
 //
@@ -20,6 +24,18 @@ android {
 
     packagingOptions {
         jniLibs.useLegacyPackaging true
+    }
+
+    // Config to enable showing code version on driver station
+    buildFeatures {
+        buildConfig = true
+    }
+    defaultConfig {
+        buildConfigField "String", "GIT_COMMIT", "\"${getGitCommit()}\""
+        buildConfigField "String", "GIT_BRANCH", "\"${getGitBranch()}\""
+        buildConfigField "String", "BUILD_DATE", "\"${getBuildDate()}\""
+        buildConfigField "boolean", "GIT_DIRTY", "${isGitDirty()}"
+        buildConfigField "String", "BUILDER", "\"${getBuilder()}\""
     }
 }
 
@@ -48,4 +64,51 @@ dependencies {
     implementation "org.solverslib:pedroPathing:SNAPSHOT-7cdcc66"
     // FTC Dashboard
     implementation "com.acmerobotics.dashboard:dashboard:0.4.17"
+}
+
+def getGitCommit() {
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', '--short', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    } catch (ignored) {
+        return "unknown"
+    }
+}
+
+def getGitBranch() {
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    } catch (ignored) {
+        return "unknown"
+    }
+}
+
+def getBuilder() {
+    return System.getProperty("user.name") ?: "unknown"
+}
+
+def isGitDirty() {
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'status', '--porcelain'
+            standardOutput = stdout
+        }
+        return !stdout.toString().trim().isEmpty()
+    } catch (ignored) {
+        return false
+    }
+}
+
+def getBuildDate() {
+    LocalDateTime.now(ZoneId.of("America/Phoenix")).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 }

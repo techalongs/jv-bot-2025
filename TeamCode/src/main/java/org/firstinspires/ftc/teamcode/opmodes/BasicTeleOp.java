@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Robot;
 /**
  * Basic TeleOp for the JV Bot.
  */
+@Disabled
 @TeleOp(name = "Basic Tele")
 public class BasicTeleOp extends LinearOpMode {
 
