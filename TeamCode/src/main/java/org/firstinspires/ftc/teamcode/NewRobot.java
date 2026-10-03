@@ -58,7 +58,7 @@ public class NewRobot extends SubsystemBase {
     }
 
     public void driveRobotCentric(GamepadEx gamepad, double limiter) {
-        double strafeSpeed = gamepad.getLeftX() * limiter;
+        double strafeSpeed = -gamepad.getLeftX() * limiter;
         double forwardSpeed = -gamepad.getLeftY() * limiter;
         double turnSpeed = -gamepad.getRightX() * limiter;
         drivetrain.driveRobotCentric(strafeSpeed, forwardSpeed, turnSpeed, true);
